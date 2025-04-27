@@ -1,0 +1,27 @@
+import axios from 'axios'
+import { getKeyValue, TOKEN_DICTIONARY } from './storage.service.js'
+
+const getWeather = async city => {
+	// https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+
+	const token =
+		process.env.TOKEN ?? (await getKeyValue(TOKEN_DICTIONARY.token, city))
+	if (!token) {
+		throw new Error('API does not exist, -t [API_TOKEN] to save token')
+	}
+
+	const { data } = await axios.get(
+		'https://api.openweathermap.org/data/2.5/weather',
+		{
+			params: {
+				q: city,
+				appid: token,
+				lang: 'en',
+				units: 'metric',
+			},
+		}
+	)
+	return data
+}
+
+export { getWeather }

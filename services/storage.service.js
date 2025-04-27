@@ -4,6 +4,11 @@ import path from 'path'
 
 const filePath = path.join(os.homedir(), 'weather-data.json')
 
+const TOKEN_DICTIONARY = {
+	token: 'token',
+	city: 'city',
+}
+
 const saveKeyValues = async (key, value) => {
 	let data = {}
 
@@ -16,6 +21,7 @@ const saveKeyValues = async (key, value) => {
 }
 
 const getKeyValue = async key => {
+	let data = {}
 	if (await isExists(filePath)) {
 		const file = await fs.promises.readFile(filePath)
 		data = JSON.parse(file)
@@ -34,4 +40,4 @@ const isExists = async path => {
 	}
 }
 
-export { getKeyValue, saveKeyValues }
+export { getKeyValue, saveKeyValues, TOKEN_DICTIONARY }
